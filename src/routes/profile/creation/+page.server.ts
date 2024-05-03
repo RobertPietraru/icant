@@ -12,10 +12,12 @@ export const load = (async ({ locals }) => {
             filter: `creator="${user.id}"`
         })
 
-        return { user: serializeNonPOJOs(user), profiles: serializeNonPOJOs(profiles) };
-    } catch (error) {
-        throw redirect(303, '/profile/creation');
+        if (profiles.length === 0) {
+            throw redirect(303, '/dashboard');
+        }
 
+    } catch (error) {
+        return { user: serializeNonPOJOs(user)};
     }
 }) satisfies PageServerLoad;
 
