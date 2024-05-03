@@ -28,10 +28,9 @@
     }
 </script>
 
-<a class="flex flex-col md:items-center gap-4 md:w-80" href="{href}">
+<a class="flex flex-col md:items-center gap-4 md:w-80" {href}>
     <img src={image} alt="Profile type" />
     <h2 class="md:text-center font-bold text-3xl">{title}</h2>
     <p class="md:text-center">{description}</p>
     <slot />
-
 </a>

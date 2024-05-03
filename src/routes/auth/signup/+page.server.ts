@@ -4,7 +4,7 @@ import type { PageServerLoad } from './$types';
 
 export const load = (async ({locals}) => {    
     if (locals.pb.authStore.model) {
-        return redirect(303, '/dashboard')
+        redirect(303, '/dashboard')
     }
 
     return {};
@@ -30,6 +30,6 @@ export const actions = {
             return fail(500, {fail: true, message: errorObj.data.message});
         } 
 		
-		throw redirect(303, '/dashboard');
+		redirect(303, '/dashboard');
 	},
 }

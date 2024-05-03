@@ -4,7 +4,7 @@ import type { PageServerLoad } from './$types';
 
 export const load = (async ({ locals }) => {
     const user = locals.pb.authStore.model;
-    if (!user) throw redirect(303, '/auth/login');
+    if (!user) redirect(303, '/auth/login');
     /// get all profiles from the user (user has many profiles)
     try {
 
@@ -14,7 +14,7 @@ export const load = (async ({ locals }) => {
 
         return { user: serializeNonPOJOs(user), profiles: serializeNonPOJOs(profiles) };
     } catch (error) {
-        throw redirect(303, '/profile/creation');
+        redirect(303, '/profile/creation');
 
     }
 }) satisfies PageServerLoad;
@@ -22,6 +22,6 @@ export const load = (async ({ locals }) => {
 export const actions = {
     logout: async ({ locals }) => {
         locals.pb.authStore.clear();
-        throw redirect(303, '/auth/login');
+        redirect(303, '/auth/login');
     }
 }

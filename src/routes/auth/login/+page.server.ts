@@ -1,10 +1,10 @@
-import { fail, redirect } from '@sveltejs/kit';
+import { fail, redirect, type Actions } from '@sveltejs/kit';
 import type { ClientResponseError } from 'pocketbase';
 import type { PageServerLoad } from './$types';
 
-export const load = (async ({locals}) => {    
+export const load : PageServerLoad= (async ({locals}) => {    
     if (locals.pb.authStore.model) {
-        return redirect(303, '/dashboard')
+        redirect(303, '/dashboard')
     }
 
     return {};
@@ -27,7 +27,7 @@ export const actions = {
             return fail(500, {fail: true, message: errorObj.data.message});
         }
 
-        throw redirect(303, '/dashboard');
+         redirect(303, '/dashboard');
     },
     reset: async ({ locals, request }) => {
         const data = await request.formData();
@@ -44,6 +44,6 @@ export const actions = {
             return fail(500, {fail: true, message: errorObj.data.message});
         }
 
-        throw redirect(303, '/login');
+         redirect(303, '/login');
     },
-}
+}satisfies Actions;
