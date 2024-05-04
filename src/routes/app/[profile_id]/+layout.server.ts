@@ -9,13 +9,12 @@ export interface SmallProfile {
     last_name: string;
 
 }
-export const load :LayoutServerLoad = (async ({ locals }) => {
-    console.log('loading');
+export const load :LayoutServerLoad = (async ({ locals, params }) => {
     const user = locals.pb.authStore.model;
+    const profileId = params.profile_id;
     if (!user) {
         return { user: undefined }
     }
-    console.log('loaded user');
 
     var profiles: ListResult<RecordModel>;
     try {
@@ -28,8 +27,6 @@ export const load :LayoutServerLoad = (async ({ locals }) => {
         console.log(errorObj);
         return { user: undefined };
     }
-    console.log('loaded profiles');
-
     const mappedProfiles = profiles.items.map((profile) => {
         const p: SmallProfile = {
             id: profile.id,
@@ -39,7 +36,6 @@ export const load :LayoutServerLoad = (async ({ locals }) => {
 
         return p;
     });
-    console.log(mappedProfiles);
-    return { user: serializeNonPOJOs(locals.pb.authStore.model), profiles: mappedProfiles };
+    return { user: serializeNonPOJOs(locals.pb.authStore.model), profiles: mappedProfiles, profileId };
 
 }) satisfies LayoutServerLoad;

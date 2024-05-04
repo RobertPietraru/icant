@@ -33,11 +33,10 @@
 		}
 	}
 
-
 	function setPosition(value: string | undefined): void {
-		throw new Error('Function not implemented.');
+		if (!value) return;
+		goto(`/app/${value}`);
 	}
-	const profileId = $page.params.slug;
 </script>
 
 <header class="p-5">
@@ -47,29 +46,30 @@
 			<a href="/about">Despre</a>
 			{#if data.user}
 				<DropdownMenu>
-					<DropdownMenuTrigger  class="font-bold"><Button variant="ghost">Contul meu</Button></DropdownMenuTrigger>
+					<DropdownMenuTrigger class="font-bold"
+						><Button variant="ghost">Contul meu</Button></DropdownMenuTrigger
+					>
 					<DropdownMenuContent>
 						<DropdownMenuItem>Setari cont</DropdownMenuItem>
 						<DropdownMenuSeparator />
 						{#if data.profiles && data.profiles.length > 0}
 							<DropdownMenuLabel>Profile</DropdownMenuLabel>
-
-						<DropdownMenuRadioGroup value={profileId} onValueChange={setPosition}>
-							
-							{#each data.profiles as profile}
-							<DropdownMenuRadioItem value="{profile.id}">{profile.first_name} {profile.last_name}</DropdownMenuRadioItem>
-							{/each}
-					    </DropdownMenuRadioGroup>
+							<DropdownMenuRadioGroup value={data.profileId} onValueChange={setPosition}>
+								{#each data.profiles as profile}
+									<DropdownMenuRadioItem value={profile.id}
+										>{profile.first_name} {profile.last_name}</DropdownMenuRadioItem
+									>
+								{/each}
+							</DropdownMenuRadioGroup>
+							<DropdownMenuItem on:click={() => goto('/profile/creation')}>Adauga</DropdownMenuItem>
+							<DropdownMenuSeparator />
 						{/if}
 
-
-
-						<DropdownMenuSeparator />
 						<DropdownMenuItem on:click={logout}>Delogheaza-te</DropdownMenuItem>
 					</DropdownMenuContent>
 				</DropdownMenu>
-				{:else} 
-				<Button  variant="ghost" on:click={() => goto(`/auth/login`)}>Login</Button>
+			{:else}
+				<Button variant="ghost" on:click={() => goto(`/auth/login`)}>Login</Button>
 			{/if}
 		</div>
 	</div>
