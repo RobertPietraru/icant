@@ -1,9 +1,13 @@
 <script lang="ts">
-	import type { Profile } from '$lib/models/profile';
-	import Button from '$lib/components/ui/button/button.svelte';
 	import { goto } from '$app/navigation';
-	export let profile: Profile;
-	var typeText: string;
+	import { page } from '$app/stores';
+	import { Button } from '$lib/components/ui/button';
+
+	import type { PageData } from './$types';
+
+	export let data;
+	const profile = data.profile;
+	var typeText : string;
 	switch (profile.type) {
 		case 'student':
 			typeText = 'Elev';
@@ -14,7 +18,7 @@
 	}
 </script>
 
-<div class="flex flex-col shadow-xl px-10 w-96 py-10 gap-10">
+<div class="flex flex-wrap px-10 gap-10">
 	<div class="flex flex-row gap-5">
 		{#if profile.photo}
 			<img src={profile.photo} alt="profile" class="rounded-full w-20 h-20 mx-auto mb-4" />
@@ -27,6 +31,4 @@
 		</div>
 		<p>{profile.bio}</p>
 	</div>
-
-	<Button on:click={() => goto(`/dashboard/${profile.id}`)}>Selecteaza</Button>
 </div>

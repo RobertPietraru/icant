@@ -12,7 +12,7 @@ export const load = (async ({ locals }) => {
         })
 
         if (profiles.length === 0) {
-            redirect(303, '/dashboard');
+            redirect(303, '/app');
         }
 
     } catch (error) {

@@ -38,6 +38,6 @@ export const actions = {
             return fail(500, { fail: true, message: errorObj.data.message });
         }
 
-        redirect(303, '/dashboard');
+        redirect(303, '/app');
     },
 }

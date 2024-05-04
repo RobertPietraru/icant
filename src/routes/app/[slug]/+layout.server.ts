@@ -1,7 +1,7 @@
 import type { ClientResponseError, ListResult, RecordModel } from 'pocketbase';
-import type { LayoutServerLoad } from './$types';
 import type { Profile } from '$lib/models/profile';
 import { serializeNonPOJOs } from '$lib/utils';
+import type { LayoutServerLoad } from './$types';
 
 export interface SmallProfile {
     id: string;
@@ -9,7 +9,7 @@ export interface SmallProfile {
     last_name: string;
 
 }
-export const load = (async ({ locals }) => {
+export const load :LayoutServerLoad = (async ({ locals }) => {
     console.log('loading');
     const user = locals.pb.authStore.model;
     if (!user) {
