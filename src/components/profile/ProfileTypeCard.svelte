@@ -2,7 +2,7 @@
 	import mentorImage from '$lib/assets/profile/mentor.svg';
 	import studentImage from '$lib/assets/profile/student.svg';
 	import teacherImage from '$lib/assets/profile/teacher.svg';
-	import { ProfileType } from '$lib/enums';
+	import type { ProfileType, Profile } from '$lib/models/profile';
 
 
 
@@ -10,17 +10,17 @@
     export let href : string;
     let image : string, title : string, description : string;
     switch (type) {
-        case ProfileType.MENTOR:
+        case "mentor":
             image = mentorImage;
             title = 'MENTOR';
             description = 'Un fel de profesor, dar necalificat. Deobicei un elev care se pricepe la ceva, dar nu neaparat la predat.';
             break;
-        case ProfileType.STUDENT:
+        case "student":
             image = studentImage;
             title = 'ELEV';
             description = 'Un elev care învață. De obicei nu se pricepe la nimic, dar încearcă să se priceapă la ceva.'
             break;
-        case ProfileType.TEACHER:
+        case "teacher":
             image = teacherImage;
             title = 'PROFESOR';
             description = 'Un profesor in toata regula. De obicei se pricepe la ceva si stie sa predea.'

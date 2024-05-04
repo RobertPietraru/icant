@@ -5,7 +5,7 @@
 
 <header class="p-5">
 	<div class="flex flex-row justify-between items-center">
-		<h1 class="font-bold text-4xl text-blue-400">iCanT</h1>
+		<a class="font-bold text-4xl text-blue-400" href="/dashboard">iCanT</a>
 		<div class="flex flex-row items-center space-x-10">
 			<a href="/about">Despre</a>
 			<button
