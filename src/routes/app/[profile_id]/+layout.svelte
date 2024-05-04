@@ -32,10 +32,11 @@
 			console.error('Failed to logout');
 		}
 	}
-
 	function setPosition(value: string | undefined): void {
 		if (!value) return;
-		goto(`/app/${value}`);
+		const old = $page.params.profile_id;
+		const newUrl = $page.url.pathname.replace(old, value);
+		goto(newUrl);
 	}
 </script>
 
@@ -51,6 +52,9 @@
 					>
 					<DropdownMenuContent>
 						<DropdownMenuItem>Setari cont</DropdownMenuItem>
+						<DropdownMenuItem on:click={() => goto(`/app/${$page.params.profile_id}/edit_profile`)}
+							>Editare Profil</DropdownMenuItem
+						>
 						<DropdownMenuSeparator />
 						{#if data.profiles && data.profiles.length > 0}
 							<DropdownMenuLabel>Profile</DropdownMenuLabel>

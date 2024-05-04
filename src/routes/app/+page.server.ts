@@ -10,6 +10,7 @@ export const load = (async ({ locals }) => {
      const profiles = await locals.pb.collection('profile').getList(1, 1, { filter: `creator="${user.id}"` });
      if (profiles.items.length === 0) redirect(303, '/profile/creation');
      const profile = profiles.items[0];
+     console.log('redirecting to profile dashboard')
      redirect(303, `/app/${profile.id}`);
 });
      
