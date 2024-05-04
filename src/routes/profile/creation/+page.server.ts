@@ -19,10 +19,3 @@ export const load = (async ({ locals }) => {
         return { user: serializeNonPOJOs(user)};
     }
 }) satisfies PageServerLoad;
-
-export const actions = {
-    logout: async ({ locals }) => {
-        locals.pb.authStore.clear();
-        redirect(303, '/auth/login');
-    }
-}

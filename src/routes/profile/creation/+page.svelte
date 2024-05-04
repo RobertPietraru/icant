@@ -1,6 +1,5 @@
 <script lang="ts">
-	import image from '$lib/assets/landing/landing_1.png';
-	import ProfileTypeCard from '../../../components/profile/ProfileTypeCard.svelte';
+	import ProfileTypeCard from './ProfileTypeCard.svelte';
 </script>
 
 <main class="px-32 flex flex-row justify-center items-center">

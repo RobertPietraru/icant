@@ -3,6 +3,7 @@ export type Gender = 'male' | 'female';
 export type ProfileType = 'teacher' | 'student' | 'mentor';
 
 export interface Profile {
+    id: string;
     bio?: string;
     first_name: string;
     last_name: string;

@@ -25,6 +25,7 @@ export const load = (async ({ locals }) => {
     }
     const mappedProfiles = profiles.items.map((profile) => {
         const p :Profile = {
+            id: profile.id,
             first_name: profile.first_name,
             last_name: profile.last_name,
             photo: profile.photo,
@@ -39,10 +40,3 @@ export const load = (async ({ locals }) => {
     });
     return { user: serializeNonPOJOs(user), profiles: serializeNonPOJOs(mappedProfiles) };
 }) satisfies PageServerLoad;
-
-export const actions = {
-    logout: async ({ locals }) => {
-        locals.pb.authStore.clear();
-        redirect(303, '/auth/login');
-    }
-}

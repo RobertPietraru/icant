@@ -1,6 +1,35 @@
-<script>
+<script lang="ts">
 	import '../app.css';
 	import image from '$lib/assets/landing/landing_1.png';
+	import {
+		DropdownMenu,
+		DropdownMenuContent,
+		DropdownMenuItem,
+		DropdownMenuLabel,
+		DropdownMenuTrigger
+	} from '$lib/components/ui/dropdown-menu';
+	import DropdownMenuSeparator from '$lib/components/ui/dropdown-menu/dropdown-menu-separator.svelte';
+
+	import type { LayoutData } from './$types';
+
+	export let data : LayoutData;
+
+	async function logout() {
+		const res = await fetch('/api/auth/logout', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		});
+
+		/// reload page
+		if (res.ok) {
+			location.reload();
+		} else {
+			console.error('Failed to logout');
+		}
+		
+	}
 </script>
 
 <header class="p-5">
@@ -8,12 +37,21 @@
 		<a class="font-bold text-4xl text-blue-400" href="/dashboard">iCanT</a>
 		<div class="flex flex-row items-center space-x-10">
 			<a href="/about">Despre</a>
-			<button
-				on:click={() => {
-					alert('asf');
-				}}
-				class="bg-blue-400 rounded-lg px-5 py-1.5 text-lg font-bold text-white">Invata</button
-			>
+			<DropdownMenu>
+				<DropdownMenuTrigger class="font-bold">Contul meu</DropdownMenuTrigger>
+				<DropdownMenuContent>
+					<DropdownMenuItem>Setari cont</DropdownMenuItem>
+					<DropdownMenuSeparator />
+					{#if (data.profiles && data.profiles.length > 0)}
+						<DropdownMenuLabel>Profilele</DropdownMenuLabel>
+						{#each data.profiles as profile}
+							<DropdownMenuItem>{profile.first_name} {profile.last_name}</DropdownMenuItem>
+						{/each}
+					{/if}
+					<DropdownMenuSeparator />
+					<DropdownMenuItem  on:click={logout}>Delogheaza-te</DropdownMenuItem>
+				</DropdownMenuContent>
+			</DropdownMenu>
 		</div>
 	</div>
 </header>
