@@ -25,6 +25,7 @@ export const load : PageServerLoad = (async ({ locals, params }) => {
         console.log(errorObj);
         redirect(303, '/app');
     }
+    console.log(profile.type)
 
     const p :Profile = {
         id: profile.id,
