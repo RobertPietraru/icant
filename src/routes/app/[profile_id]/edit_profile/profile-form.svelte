@@ -31,7 +31,7 @@
 	};
 </script>
 
-<form method="POST" class="flex flex-col items-stretch space-y-8" use:enhance id="profile-form">
+<form method="POST" action="?/update" class="flex flex-col items-stretch space-y-8" use:enhance id="profile-form">
 	<div class="flex flex-row justify-stretch">
 		<div class="w-1/3">
 			<Form.Field {form} name="last_name">

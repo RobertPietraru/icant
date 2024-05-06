@@ -2,6 +2,12 @@
 	import image from '$lib/assets/landing/landing_1.png';
 </script>
 
+<header class="p-5">
+	<div class="flex flex-row justify-between items-center">
+		<a class="font-bold text-4xl text-blue-400" href="/">iCanT</a>
+	</div>
+</header>
+
 <main class="px-32 flex flex-row justify-between min-h-[90vh]">
 		<div class="flex flex-col space-y-3 items-start ">
 			<h1 class="text-9xl font-bold">Invata. Predeaza.</h1>

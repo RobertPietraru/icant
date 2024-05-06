@@ -53,7 +53,7 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 };
 
 export const actions: Actions = {
-	default: async (event) => {
+	update: async (event) => {
 		const form = await superValidate(event, zod(profileFormSchema));
 		if (!form.valid) {
 			return fail(400, {
@@ -93,4 +93,18 @@ export const actions: Actions = {
 		}
 		redirect(303, `/app/${profile_id}`);
 	},
+	delete: async (event) => { 
+		const profile_id = event.params.profile_id;
+		if (!profile_id) {
+			return redirect(303, '/app');
+		}
+		try {
+			await event.locals.pb.collection('profile').delete(profile_id);
+		} catch (error) {
+			const errorObj = error as ClientResponseError;
+			console.log(errorObj);
+			redirect(303, '/app');
+		}
+		redirect(303, '/app');
+	}
 };

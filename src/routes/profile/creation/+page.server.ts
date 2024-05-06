@@ -7,15 +7,24 @@ export const load = (async ({ locals }) => {
     if (!user) redirect(303, '/auth/login');
     /// get all profiles from the user (user has many profiles)
     try {
-        const profiles = await locals.pb.collection("profiles").getFullList({
-            filter: `creator="${user.id}"`
-        })
+        const profiles = await locals.pb.collection('profile').getList(1, 10, { filter: `creator="${user.id}"` });
 
-        if (profiles.length === 0) {
-            redirect(303, '/app');
-        }
+        const hasTeacherProfile = profiles.items.some(profile => profile.type === "teacher");
+        const hasMentorProfile = profiles.items.some(profile => profile.type === "mentor");
+        console.log("hasTeacherProfile", hasTeacherProfile);
+
+        console.log(profiles);
+        return {
+            hasTeacherProfile,
+            hasMentorProfile,
+        };
 
     } catch (error) {
-        return { user: serializeNonPOJOs(user)};
+        console.error(error);
+        return {
+            hasTeacherProfile: false,
+            hasMentorProfile: false,
+
+        }
     }
 }) satisfies PageServerLoad;
