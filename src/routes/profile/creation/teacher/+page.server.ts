@@ -10,6 +10,18 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 
     if (!user) redirect(303, '/auth/login');
 
+    var areProfesor = false;
+    try {
+        const profiles = await locals.pb.collection('profile').getList(1, 10, { filter: `creator="${user.id}"` });
+        areProfesor = profiles.items.some(profile => profile.type === "teacher");
+    } catch (error) {
+        console.error(error);
+    }
+
+    if (areProfesor) {
+        redirect(303, '/app');
+    }
+
     return {
         form: await superValidate(zod(profileFormSchema)),
     };
