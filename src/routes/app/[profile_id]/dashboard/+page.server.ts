@@ -4,6 +4,14 @@ import { serializeNonPOJOs } from '$lib/utils';
 import type { LayoutServerLoad } from '../$types';
 import { redirect } from '@sveltejs/kit';
 
+export interface SmallListing {
+    id: string;
+    title: string;
+    description: string;
+    price: number;
+    session_duration: number;
+    created_at: string;
+}
 export interface SmallProfile {
     id: string;
     first_name: string;
@@ -16,29 +24,20 @@ export const load: LayoutServerLoad = (async ({ locals, params }) => {
     if (!user) {
         redirect(303, '/auth/login');
     }
+    var profile: RecordModel | undefined;
 
-    var profiles: ListResult<RecordModel>;
     try {
-        profiles = await locals.pb.collection('profile').getList(1, 50, {
-            filter: `creator="${user.id}"`,
-            requestKey: null,
-        });
+        profile = await locals.pb.collection('profile').getOne(profileId);
     } catch (error) {
         const errorObj = error as ClientResponseError;
         console.log(errorObj);
+        profile = undefined;
+    }
+
+    if (!profile) {
         redirect(303, '/profile/creation');
     }
 
-    const mappedProfiles = profiles.items.map((profile) => {
-        const p: SmallProfile = {
-            id: profile.id,
-            first_name: profile.first_name,
-            last_name: profile.last_name,
-        };
-
-        return p;
-    });
-    const profile = (profiles.items.find((p) => p.id === profileId))!;
     const p = {
         first_name: profile.first_name,
         last_name: profile.last_name,
@@ -46,14 +45,32 @@ export const load: LayoutServerLoad = (async ({ locals, params }) => {
         photo: profile.photo,
         type: profile.type,
     } as Profile
-    if (!profile) {
-        redirect(303, '/profile/creation');
-    }
+
     if (profile.type === 'student') {
-        redirect(303, `/app/${profile.id}/search`);
+        redirect(303, `/app/${profile.id}/home`);
+    }
+
+    try {
+        const listings = await locals.pb.collection('listings').getList(1, 50, { filter: `creator="${profile.id}"`});
+        const actualListings = listings.items.map((l) => {
+            return {
+                id: l.id,
+                title: l.title,
+                description: l.description,
+                price: l.session_price,
+                session_duration: l.session_duration,
+                created_at: l.created_at,
+            }  as SmallListing;
+        }
+    );
+
+        return { user: serializeNonPOJOs(user), profileId, profile: p , listings: actualListings, batch_size: listings.perPage, total_items: listings.totalItems, page: listings.page};
+    } catch (error) {
+        console.log(error);
+        return { user: serializeNonPOJOs(user), profileId, profile: p , listings: [],  batch_size: 0, total_items: 0, page: 1};
+
     }
 
 
-    return { user: serializeNonPOJOs(locals.pb.authStore.model), profiles: mappedProfiles, profileId, profile: p };
 
 }) satisfies LayoutServerLoad;

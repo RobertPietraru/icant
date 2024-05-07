@@ -2,6 +2,7 @@ import type { ClientResponseError, ListResult, RecordModel } from 'pocketbase';
 import type { Profile } from '$lib/models/profile';
 import { serializeNonPOJOs } from '$lib/utils';
 import type { LayoutServerLoad } from './$types';
+import { redirect } from '@sveltejs/kit';
 
 export interface SmallProfile {
     id: string;
@@ -13,7 +14,7 @@ export const load: LayoutServerLoad = (async ({ locals, params }) => {
     const user = locals.pb.authStore.model;
     const profileId = params.profile_id;
     if (!user) {
-        return { user: serializeNonPOJOs(locals.pb.authStore.model), profiles: [], profileId, profile: undefined }
+         redirect(303, '/auth/login');
     }
 
     var profiles: ListResult<RecordModel>;
@@ -25,7 +26,7 @@ export const load: LayoutServerLoad = (async ({ locals, params }) => {
     } catch (error) {
         const errorObj = error as ClientResponseError;
         console.log(errorObj);
-        return { user: serializeNonPOJOs(locals.pb.authStore.model), profiles: [], profileId, profile: undefined };
+        redirect(303, '/profile/creation');
     }
 
     const mappedProfiles = profiles.items.map((profile) => {

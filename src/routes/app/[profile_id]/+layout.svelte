@@ -31,28 +31,26 @@
 	var image: string;
 
 	$: {
-		if (data.profile) {
-			switch (data.profile.type) {
-				case 'student':
-					typeText = 'Elev';
-					image = studentImage;
-					break;
-				case 'mentor':
-					typeText = 'Mentor';
-					image = mentorImage;
-					break;
-				case 'teacher':
-					if (data.profile.gender == 'female') {
-						image = teacherImage;
-					} else {
-						image = teacherMaleImage;
-					}
-					typeText = 'Profesor';
-					break;
-				default:
-					image = studentImage;
-					break;
-			}
+		switch (data.profile.type) {
+			case 'student':
+				typeText = 'Elev';
+				image = studentImage;
+				break;
+			case 'mentor':
+				typeText = 'Mentor';
+				image = mentorImage;
+				break;
+			case 'teacher':
+				if (data.profile.gender == 'female') {
+					image = teacherImage;
+				} else {
+					image = teacherMaleImage;
+				}
+				typeText = 'Profesor';
+				break;
+			default:
+				image = studentImage;
+				break;
 		}
 	}
 
@@ -91,7 +89,7 @@
 <div class="flex min-h-screen w-full flex-col bg-muted/40">
 	<aside class="fixed inset-y-0 left-0 z-10 hidden w-14 flex-col border-r bg-background sm:flex">
 		<nav class="flex flex-col items-center gap-4 px-2 sm:py-5">
-			{#if data.profile && data.profile.type != 'student'}
+			{#if data.profile.type != 'student'}
 				<Tooltip.Root>
 					<Tooltip.Trigger asChild let:builder>
 						<a
@@ -101,6 +99,23 @@
 								: unselectedTabStyle}
 							use:builder.action
 							{...builder}
+							data-sveltekit-reload
+						>
+							<Home class="h-5 w-5" />
+							<span class="sr-only">Dashboard</span>
+						</a>
+					</Tooltip.Trigger>
+					<Tooltip.Content side="right">Dashboard</Tooltip.Content>
+				</Tooltip.Root>
+			{:else}
+				<Tooltip.Root>
+					<Tooltip.Trigger asChild let:builder>
+						<a
+							href={`/app/${data.profileId}/home`}
+							class={$page.url.pathname.includes(`home`) ? selectedTabStyle : unselectedTabStyle}
+							use:builder.action
+							{...builder}
+							data-sveltekit-reload
 						>
 							<Home class="h-5 w-5" />
 							<span class="sr-only">Dashboard</span>
@@ -109,10 +124,10 @@
 					<Tooltip.Content side="right">Dashboard</Tooltip.Content>
 				</Tooltip.Root>
 			{/if}
-
 			<Tooltip.Root>
 				<Tooltip.Trigger asChild let:builder>
 					<a
+						data-sveltekit-reload
 						href={`/app/${data.profileId}/search`}
 						class={$page.url.pathname.includes(`search`) ? selectedTabStyle : unselectedTabStyle}
 						use:builder.action
@@ -124,28 +139,12 @@
 				</Tooltip.Trigger>
 				<Tooltip.Content side="right">Search</Tooltip.Content>
 			</Tooltip.Root>
-
-			<Tooltip.Root>
-				<Tooltip.Trigger asChild let:builder>
-					<a
-						href={`/app/${data.profileId}/edit_profile`}
-						class={$page.url.pathname.includes(`edit_profile`)
-							? selectedTabStyle
-							: unselectedTabStyle}
-						use:builder.action
-						{...builder}
-					>
-						<UserRound class="h-5 w-5" />
-						<span class="sr-only">Profile</span>
-					</a>
-				</Tooltip.Trigger>
-				<Tooltip.Content side="right">Customers</Tooltip.Content>
-			</Tooltip.Root>
 		</nav>
 		<nav class="mt-auto flex flex-col items-center gap-4 px-2 sm:py-5">
 			<Tooltip.Root>
 				<Tooltip.Trigger asChild let:builder>
 					<a
+						data-sveltekit-reload
 						href="##"
 						class="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
 						use:builder.action
@@ -182,7 +181,7 @@
 						size="icon"
 						class="overflow-hidden rounded-full"
 					>
-						{#if data.profile != undefined && data.profile.photo}
+						{#if data.profile.photo}
 							<img
 								src={data.profile.photo}
 								alt="profile"
