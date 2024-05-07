@@ -91,27 +91,47 @@
 <div class="flex min-h-screen w-full flex-col bg-muted/40">
 	<aside class="fixed inset-y-0 left-0 z-10 hidden w-14 flex-col border-r bg-background sm:flex">
 		<nav class="flex flex-col items-center gap-4 px-2 sm:py-5">
+			{#if data.profile && data.profile.type != 'student'}
+				<Tooltip.Root>
+					<Tooltip.Trigger asChild let:builder>
+						<a
+							href={`/app/${data.profileId}/`}
+							class={$page.url.pathname.includes(`dashboard`)
+								? selectedTabStyle
+								: unselectedTabStyle}
+							use:builder.action
+							{...builder}
+						>
+							<Home class="h-5 w-5" />
+							<span class="sr-only">Dashboard</span>
+						</a>
+					</Tooltip.Trigger>
+					<Tooltip.Content side="right">Dashboard</Tooltip.Content>
+				</Tooltip.Root>
+			{/if}
+
 			<Tooltip.Root>
 				<Tooltip.Trigger asChild let:builder>
 					<a
 						href={`/app/${data.profileId}/`}
-						class={$page.url.pathname.includes(`/app/${data.profileId}`)
-							? selectedTabStyle
-							: unselectedTabStyle}
+						class={$page.url.pathname.includes(`search`) ? selectedTabStyle : unselectedTabStyle}
 						use:builder.action
 						{...builder}
 					>
-						<Home class="h-5 w-5" />
-						<span class="sr-only">Dashboard</span>
+						<Search class="h-5 w-5" />
+						<span class="sr-only">Search</span>
 					</a>
 				</Tooltip.Trigger>
-				<Tooltip.Content side="right">Dashboard</Tooltip.Content>
+				<Tooltip.Content side="right">Search</Tooltip.Content>
 			</Tooltip.Root>
+
 			<Tooltip.Root>
 				<Tooltip.Trigger asChild let:builder>
 					<a
 						href={`/app/${data.profileId}/edit_profile`}
-						class={getTabStyle('edit_profile')}
+						class={$page.url.pathname.includes(`edit_profile`)
+							? selectedTabStyle
+							: unselectedTabStyle}
 						use:builder.action
 						{...builder}
 					>
