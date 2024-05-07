@@ -25,7 +25,5 @@
         <br>
         <button class="btn variant-filled w-full mt-4" type="submit">Login</button>
         <br>
-        <br>
-        <button class="block ml-auto hover:underline my-2" formnovalidate formaction="?/reset">Reset Password</button>
     </form>
 </div>

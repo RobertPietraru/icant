@@ -13,6 +13,8 @@
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "^3.0.0",
+		"@sveltejs/adapter-node": "^5.0.1",
+		"@sveltejs/adapter-vercel": "^5.3.0",
 		"@sveltejs/kit": "^2.0.0",
 		"@sveltejs/vite-plugin-svelte": "^3.0.0",
 		"@types/eslint": "^8.56.0",
@@ -38,6 +40,7 @@
 		"bits-ui": "^0.21.7",
 		"clsx": "^2.1.1",
 		"cmdk-sv": "^0.0.17",
+		"dotenv": "^16.4.5",
 		"formsnap": "^1.0.0",
 		"lucide-svelte": "^0.378.0",
 		"pocketbase": "^0.21.2",

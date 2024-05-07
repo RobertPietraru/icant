@@ -10,18 +10,6 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 
     if (!user) redirect(303, '/auth/login');
 
-    var areMentor = false;
-    try {
-        const profiles = await locals.pb.collection('profile').getList(1, 10, { filter: `creator="${user.id}"` });
-        areMentor = profiles.items.some(profile => profile.type === "mentor");
-    } catch (error) {
-        console.error(error);
-    }
-
-    if (areMentor) {
-        redirect(303, '/app');
-    }
-
     return {
         form: await superValidate(zod(profileFormSchema)),
     };
@@ -37,7 +25,7 @@ export const actions: Actions = {
         }
         /// update user profile with the new data from the form
         const data = form.data;
-        var profile_id: string | undefined = undefined;
+        var profile_id : string | undefined= undefined;
         try {
             /// get current user
             const user = event.locals.pb.authStore.model;
