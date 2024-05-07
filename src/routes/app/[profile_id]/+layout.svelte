@@ -95,7 +95,7 @@
 				<Tooltip.Root>
 					<Tooltip.Trigger asChild let:builder>
 						<a
-							href={`/app/${data.profileId}/`}
+							href={`/app/${data.profileId}/dashboard`}
 							class={$page.url.pathname.includes(`dashboard`)
 								? selectedTabStyle
 								: unselectedTabStyle}
@@ -113,7 +113,7 @@
 			<Tooltip.Root>
 				<Tooltip.Trigger asChild let:builder>
 					<a
-						href={`/app/${data.profileId}/`}
+						href={`/app/${data.profileId}/search`}
 						class={$page.url.pathname.includes(`search`) ? selectedTabStyle : unselectedTabStyle}
 						use:builder.action
 						{...builder}

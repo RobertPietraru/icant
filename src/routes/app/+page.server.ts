@@ -13,6 +13,6 @@ export const load = (async ({ locals }) => {
      const profile = profiles.items[0];
 
 
-     redirect(303, `/app/${profile.id}`);
+     redirect(303, `/app/${profile.id}/dashboard`);
 });
      

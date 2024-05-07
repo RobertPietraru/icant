@@ -91,7 +91,7 @@ export const actions: Actions = {
 			console.log(errorObj);
 			redirect(303, '/app');
 		}
-		redirect(303, `/app/${profile_id}`);
+		redirect(303, `/app/${profile_id}/dashboard`);
 	},
 	delete: async (event) => { 
 		const profile_id = event.params.profile_id;

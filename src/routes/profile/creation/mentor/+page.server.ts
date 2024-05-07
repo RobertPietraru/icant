@@ -47,6 +47,6 @@ export const actions: Actions = {
             return fail(500, { fail: true, message: errorObj.data.message });
         }
 
-        redirect(303, `/app/${profile_id}`);
+        redirect(303, `/app/${profile_id}/dashboard`);
     },
 };
