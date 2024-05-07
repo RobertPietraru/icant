@@ -9,7 +9,7 @@ export interface SmallProfile {
     last_name: string;
 
 }
-export const load :LayoutServerLoad = (async ({ locals, params }) => {
+export const load: LayoutServerLoad = (async ({ locals, params }) => {
     const user = locals.pb.authStore.model;
     const profileId = params.profile_id;
     if (!user) {
@@ -36,6 +36,16 @@ export const load :LayoutServerLoad = (async ({ locals, params }) => {
 
         return p;
     });
-    return { user: serializeNonPOJOs(locals.pb.authStore.model), profiles: mappedProfiles, profileId };
+    const profile = (profiles.items.find((p) => p.id === profileId))!;
+    const p = {
+        first_name: profile.first_name,
+        last_name: profile.last_name,
+        bio: profile.bio,
+        photo: profile.photo,
+        type: profile.type,
+    } as Profile
+
+
+    return { user: serializeNonPOJOs(locals.pb.authStore.model), profiles: mappedProfiles, profileId, profile: p };
 
 }) satisfies LayoutServerLoad;

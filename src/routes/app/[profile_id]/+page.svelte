@@ -22,18 +22,4 @@
 </script>
 
 <main class="p-8">
-	<div class="flex flex-col gap-2">
-		<div class="flex flex-row gap-5">
-			{#if data.profile.photo}
-				<img src={data.profile.photo} alt="profile" class="rounded-full w-20 h-20 mx-auto mb-4" />
-			{:else}
-				<div class="rounded-full w-20 h-20 bg-gray-200" />
-			{/if}
-			<div>
-				<h1>{data.profile.last_name} {data.profile.first_name}</h1>
-				<h2>{typeText}</h2>
-			</div>
-		</div>
-		<p class="text-gray-500">{data.profile.bio}</p>
-	</div>
 </main>
