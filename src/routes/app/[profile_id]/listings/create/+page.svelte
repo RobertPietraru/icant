@@ -1,1 +1,16 @@
-<h1>Create listing</h1>
+<script lang="ts">
+	import { Button } from "$lib/components/ui/button/index.js";
+	import { Separator } from "$lib/components/ui/select";
+	import type { PageData } from "./$types.js";
+	import ListingCreationForm from "./listing_creation_form.svelte";
+	export let data: PageData;
+</script>
+
+<div class="space-y-6">
+	<div>
+		<h3 class="text-lg font-medium">Anunt nou</h3>
+		<p class="text-sm text-muted-foreground">Creeaza un anunt pentru un curs</p>
+	</div>
+	<Separator />
+	<ListingCreationForm data={data.form} />
+</div>

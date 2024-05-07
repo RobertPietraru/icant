@@ -1,7 +1,7 @@
 import type { ClientResponseError, ListResult, RecordModel } from 'pocketbase';
 import type { Profile } from '$lib/models/profile';
 import { serializeNonPOJOs } from '$lib/utils';
-import type { LayoutServerLoad } from './$types';
+import type { LayoutServerLoad } from '../$types';
 
 export interface SmallProfile {
     id: string;

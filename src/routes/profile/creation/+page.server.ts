@@ -11,7 +11,9 @@ export const load = (async ({ locals }) => {
 
         const hasTeacherProfile = profiles.items.some(profile => profile.type === "teacher");
         const hasMentorProfile = profiles.items.some(profile => profile.type === "mentor");
+        console.log("hasMentorProfile", hasMentorProfile);
         console.log("hasTeacherProfile", hasTeacherProfile);
+        console.log("teacher_profile: ", profiles.items.filter(profile => profile.type === "teacher")[0])
 
         console.log(profiles);
         return {
