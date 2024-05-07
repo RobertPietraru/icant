@@ -15,6 +15,6 @@
 	<Separator />
 	<!-- profile deletion -->
 	<form action="?/delete" method="POST">
-		<Button type="submit" variant="outline" class="bg-red-500 text-white">Delete profile</Button>
+		<Button type="submit" variant="destructive" >Delete profile</Button>
 	</form>
 </div>
