@@ -2,7 +2,7 @@
 	import { Button } from "$lib/components/ui/button/index.js";
 	import { Separator } from "$lib/components/ui/select";
 	import type { PageData } from "./$types.js";
-	import ListingCreationForm from "./listing_creation_form.svelte";
+	import ListingCreationForm from "./ListingCreationForm.svelte";
 	export let data: PageData;
 </script>
 

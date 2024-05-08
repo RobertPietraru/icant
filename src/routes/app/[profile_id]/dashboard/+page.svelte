@@ -58,7 +58,7 @@
 			<Card.Description>Acestea sunt anunturile publicate</Card.Description>
 		</Card.Header>
 
-		<Button size="sm" class="h-8 gap-1" on:click={() => goto(`${data.profileId}/listings/create`)}>
+		<Button size="sm" class="h-8 gap-1" on:click={() => goto(`/app/${data.profileId}/listings/create`)}>
 			<CirclePlus class="h-3.5 w-3.5" />
 			<span class="sr-only sm:not-sr-only sm:whitespace-nowrap"> Creeaza Curs</span>
 		</Button>
