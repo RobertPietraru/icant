@@ -46,22 +46,24 @@
 		}
 	}
 
+
 	async function deleteListing(id: string) {
 		const res = await fetch(`/api/listings/${id}/delete`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'
-			}
+			},
 		});
 		if (res.ok) {
 			location.reload();
-		} else {
+		}
+		else {
 			console.error('Failed to delete listing');
 		}
 	}
 </script>
 
-<main class="grid flex-1 items-start gap-4 md:gap-8">
+<main class="grid flex-1 items-start tap-4 md:gap-8">
 	<div>
 		<h1 class="text-5xl font-bold text-gray-700">Panou de control</h1>
 		<h2 class="text-3xl font-bold text-gray-300">{typeText}</h2>
