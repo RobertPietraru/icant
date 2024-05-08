@@ -81,7 +81,6 @@
 		'flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8';
 	function getTabStyle(tabName: string): string {
 		const path = $page.url.pathname;
-		console.log(path);
 		return path === tabName ? selectedTabStyle : unselectedTabStyle;
 	}
 </script>

@@ -25,7 +25,6 @@ export const load: LayoutServerLoad = (async ({ locals, params }) => {
         });
     } catch (error) {
         const errorObj = error as ClientResponseError;
-        console.log(errorObj);
         redirect(303, '/profile/creation');
     }
 
@@ -39,6 +38,9 @@ export const load: LayoutServerLoad = (async ({ locals, params }) => {
         return p;
     });
     const profile = (profiles.items.find((p) => p.id === profileId))!;
+    if (!profile) {
+        redirect(303, '/profile/creation');
+    }
     const p = {
         first_name: profile.first_name,
         last_name: profile.last_name,
@@ -48,6 +50,6 @@ export const load: LayoutServerLoad = (async ({ locals, params }) => {
     } as Profile
 
 
-    return { user: serializeNonPOJOs(locals.pb.authStore.model), profiles: mappedProfiles, profileId, profile: p };
+    return { user: serializeNonPOJOs(user), profiles: mappedProfiles, profileId, profile: p };
 
 }) satisfies LayoutServerLoad;

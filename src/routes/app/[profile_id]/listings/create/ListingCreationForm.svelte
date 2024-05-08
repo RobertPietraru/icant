@@ -84,5 +84,5 @@
 		<Form.FieldErrors />
 	</Form.Field>
 
-	<div class="flex flex-row justify-center"><Form.Button>Creeaza profilul</Form.Button></div>
+	<div class="flex flex-row justify-center"><Form.Button>Creeaza anuntul</Form.Button></div>
 </form>

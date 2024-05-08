@@ -5,7 +5,6 @@ import type { PageServerLoad } from "./$types.js";
 import { accountFormSchema } from "./account-form.svelte";
 
 export const load: PageServerLoad = async () => {
-	console.log('loading')
 	return {
 		form: await superValidate(zod(accountFormSchema)),
 	};

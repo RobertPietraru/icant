@@ -12,7 +12,6 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 
 	if (!user) redirect(303, '/auth/login');
 	if (!profile_id) {
-		console.log('redirected');
 		redirect(303, '/app');
 	};
     const form = await superValidate(zod(listingFormSchema));
@@ -44,7 +43,8 @@ export const actions: Actions = {
                 title: data.title,
                 session_duration: data.session_duration,
                 session_price: data.session_price,
-                creator: profile_id,
+                profile: profile_id,
+                user: user.id,
             });
         } catch (error) {
             const errorObj = error as ClientResponseError;

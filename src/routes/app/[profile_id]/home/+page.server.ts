@@ -11,7 +11,6 @@ export interface SmallProfile {
 
 }
 export const load: LayoutServerLoad = (async ({ locals, params }) => {
-    console.log('loading');
     const user = locals.pb.authStore.model;
     const profileId = params.profile_id;
     if (!user) {
@@ -24,7 +23,6 @@ export const load: LayoutServerLoad = (async ({ locals, params }) => {
         profile = await locals.pb.collection('profile').getOne(profileId);
     } catch (error) {
         const errorObj = error as ClientResponseError;
-        console.log(errorObj);
         profile = undefined;
     }
 

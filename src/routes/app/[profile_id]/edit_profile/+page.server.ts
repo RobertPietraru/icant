@@ -12,7 +12,6 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 
 	if (!user) redirect(303, '/auth/login');
 	if (!profile_id) {
-		console.log('redirected');
 		redirect(303, '/app');
 	};
 	/// get all profiles from the user (user has many profiles)
@@ -22,7 +21,6 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 		profile = await locals.pb.collection('profile').getOne(profile_id);
 	} catch (error) {
 		const errorObj = error as ClientResponseError;
-		console.log(errorObj);
 		redirect(303, '/app');
 	}
 
@@ -88,7 +86,6 @@ export const actions: Actions = {
 
 		} catch (error) {
 			const errorObj = error as ClientResponseError;
-			console.log(errorObj);
 			redirect(303, '/app');
 		}
 		redirect(303, `/app/${profile_id}/dashboard`);
@@ -102,7 +99,6 @@ export const actions: Actions = {
 			await event.locals.pb.collection('profile').delete(profile_id);
 		} catch (error) {
 			const errorObj = error as ClientResponseError;
-			console.log(errorObj);
 			redirect(303, '/app');
 		}
 		redirect(303, '/app');
