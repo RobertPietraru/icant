@@ -4,7 +4,7 @@ import type { SmallListing } from "../dashboard/+page.server";
 import type { SmallProfile } from "../proxy+layout.server";
 
 
-export const load: PageServerLoad = async ({ locals, params }) => {
+export const load: PageServerLoad = async ({ locals, params, url }) => {
     const user = locals.pb.authStore.model;
     const profile_id = params.profile_id;
 
@@ -12,6 +12,10 @@ export const load: PageServerLoad = async ({ locals, params }) => {
     if (!profile_id) {
         redirect(303, '/app');
     };
+
+    const searchTerm = url.searchParams.get('searchTerm');
+
+
 
     /// get 5 listings
     try {
