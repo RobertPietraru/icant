@@ -8,7 +8,7 @@
 	import Search from 'lucide-svelte/icons/search';
 	import Settings from 'lucide-svelte/icons/settings';
 
-	import { Input } from '$lib/components/ui/input/index.js';
+	import { Input, type FormInputEvent } from '$lib/components/ui/input/index.js';
 	import * as Tooltip from '$lib/components/ui/tooltip/index.js';
 
 	import {
@@ -52,6 +52,10 @@
 				image = studentImage;
 				break;
 		}
+	}
+	let searchValue: string = '';
+	function onSearch() {
+		goto(`/app/${$page.params.profile_id}/explore/search/?searchTerm=${searchValue}`);
 	}
 
 	async function logout() {
@@ -165,7 +169,13 @@
 
 			<div class="relative md:grow-0 w-1/3 ml-auto">
 				<Search class="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-				<Input type="search" placeholder="Search..." class="w-full rounded-lg bg-background pl-8" />
+				<Input
+					type="search"
+					placeholder="Cauta..."
+					class="w-full rounded-lg bg-background pl-8"
+					bind:value={searchValue}
+					on:change={onSearch}
+				/>
 			</div>
 
 			<DropdownMenu>

@@ -1,5 +1,7 @@
 import { fail, redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from '../$types';
+import type { SmallListing } from '../../dashboard/+page.server';
+import type { SmallProfile } from '../../+layout.server';
 
 export const load: PageServerLoad = async ({ locals, params, url }) => {
 	const user = locals.pb.authStore.model;
@@ -11,17 +13,15 @@ export const load: PageServerLoad = async ({ locals, params, url }) => {
 	}
 
 	const searchTerm = url.searchParams.get('searchTerm');
+	console.log(searchTerm)
 
 	/// get 5 listings
 	try {
-		const listings = await locals.pb.collection('listings').getList(1, 5, {
-			requestKey: null
-		});
+		const query = searchTerm?.split(' ').map((term) => `( title ~ "${term}" || description ~ "${term}")`).join(' && ');
 
-		await locals.pb.collection('listings').getList(1, 20, {
-			filter: locals.pb.filter(
-				'id ~ {:search} || title ~ {:search} || description ~ {:search} || phoneno ~ {:search} || priority ~ {:search} || non_priority ~ {:search} || discord ~ {:search}',
-				{ search: searchTerm }
+		const listings = await locals.pb.collection('listings').getList(1, 20, {
+			filter: !query ? undefined : locals.pb.filter(
+				query
 			)
 		});
 
@@ -52,36 +52,9 @@ export const load: PageServerLoad = async ({ locals, params, url }) => {
 				};
 			})
 		);
-		const new_pairs = await Promise.all(
-			new_listings.items.map(async (listing) => {
-				const profile = await locals.pb.collection('profile').getOne(listing.profile, {
-					requestKey: null
-				});
-
-				return {
-					listing: {
-						title: listing.title,
-						description: listing.description,
-						created_at: new Date(listing.created),
-						id: listing.id,
-						modified_at: new Date(listing.modified),
-						price: listing.session_price,
-						session_duration: listing.session_duration
-					} as SmallListing,
-					profile: {
-						id: profile.id,
-						first_name: profile.first_name,
-						last_name: profile.last_name,
-						gender: profile.gender,
-						type: profile.type
-					}
-				};
-			})
-		);
 
 		return {
 			listings: pairs,
-			new_listings: new_pairs
 		};
 	} catch (error) {
 		console.error(error);

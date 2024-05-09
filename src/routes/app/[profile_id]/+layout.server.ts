@@ -8,7 +8,8 @@ export interface SmallProfile {
     id: string;
     first_name: string;
     last_name: string;
-
+    gender: string;
+    type: string;
 }
 export const load: LayoutServerLoad = (async ({ locals, params }) => {
     const user = locals.pb.authStore.model;
@@ -31,8 +32,9 @@ export const load: LayoutServerLoad = (async ({ locals, params }) => {
     const mappedProfiles = profiles.items.map((profile) => {
         const p: SmallProfile = {
             id: profile.id,
-            first_name: profile.first_name,
-            last_name: profile.last_name,
+            gender: profile.gender,
+            type: profile.type,
+            first_name: profile.first_name, last_name: profile.last_name,
         };
 
         return p;

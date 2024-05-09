@@ -1,12 +1,11 @@
 <script lang="ts">
 	import * as Card from '$lib/components/ui/card';
-	import type { SmallListing } from '../../dashboard/proxy+page.server';
-	import type { SmallProfile } from '../../proxy+layout.server';
-
 	import mentorImage from '$lib/assets/profile/mentor.svg';
 	import studentImage from '$lib/assets/profile/student.svg';
 	import teacherImage from '$lib/assets/profile/teacher.svg';
 	import teacherMaleImage from '$lib/assets/profile/teacher_male.svg';
+	import type { SmallProfile } from '../../+layout.server';
+	import type { SmallListing } from '../../dashboard/+page.server';
 
 	export let listing: SmallListing;
 	export let profile: SmallProfile;
