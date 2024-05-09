@@ -5,6 +5,7 @@
 	import teacherMaleImage from '$lib/assets/profile/teacher_male.svg';
 	import Button from '$lib/components/ui/button/button.svelte';
 	import Home from 'lucide-svelte/icons/home';
+	import Calendar from 'lucide-svelte/icons/calendar';
 	import Search from 'lucide-svelte/icons/search';
 	import Settings from 'lucide-svelte/icons/settings';
 
@@ -25,7 +26,6 @@
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import UserRound from 'lucide-svelte/icons/user-round';
-
 	export let data;
 	var typeText: string = 'necunoscut';
 	var image: string;
@@ -131,16 +131,31 @@
 				<Tooltip.Trigger asChild let:builder>
 					<a
 						data-sveltekit-reload
+						href={`/app/${data.profileId}/calendar`}
+						class={$page.url.pathname.includes(`calendar`) ? selectedTabStyle : unselectedTabStyle}
+						use:builder.action
+						{...builder}
+					>
+						<Calendar class="h-5 w-5" />
+						<span class="sr-only">Calenda</span>
+					</a>
+				</Tooltip.Trigger>
+				<Tooltip.Content side="right">Search</Tooltip.Content>
+			</Tooltip.Root>
+			<Tooltip.Root>
+				<Tooltip.Trigger asChild let:builder>
+					<a
+						data-sveltekit-reload
 						href={`/app/${data.profileId}/explore`}
 						class={$page.url.pathname.includes(`explore`) ? selectedTabStyle : unselectedTabStyle}
 						use:builder.action
 						{...builder}
 					>
 						<Search class="h-5 w-5" />
-						<span class="sr-only">Search</span>
+						<span class="sr-only">Cautare</span>
 					</a>
 				</Tooltip.Trigger>
-				<Tooltip.Content side="right">Search</Tooltip.Content>
+				<Tooltip.Content side="right">Cautare</Tooltip.Content>
 			</Tooltip.Root>
 		</nav>
 		<nav class="mt-auto flex flex-col items-center gap-4 px-2 sm:py-5">

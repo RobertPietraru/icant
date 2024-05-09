@@ -10,7 +10,6 @@
             Acestea sunt rezultatele cautarii
 		</h2>
 	</div>
-	<h2 class="text-3xl font-bold text-gray-700">Recomandate</h2>
 	<div class="flex flex-wrap gap-10">
 		{#if data.listings}
 			{#each data.listings as pair}
