@@ -1,29 +1,9 @@
 <script lang="ts">
-    import type { ActionData, PageData } from './$types';
-    
-    export let data: PageData;
+	import UserLoginForm from './user-login-form.svelte';
+	import type { ActionData, PageData } from './$types';
+
+	export let data: PageData;
 	export let form: ActionData;
 </script>
 
-<div class="h-full flex flex-col justify-center sm:mx-auto sm:w-full sm:max-w-sm">
-    {#if form?.fail}
-        <div class="variant-soft-error px-4 py-2 mb-2 rounded-token">
-            {form.message}
-        </div>
-    {/if}
-    <form action="?/login" method="post">
-        <label class="label">
-            <span>E-Mail</span>
-            <input class="input" name="email" title="E-Mail" type="email" placeholder="mail@example.com" required />
-        </label>
-        <br>
-        <label class="label mt-4">
-        <br>
-            <span>Password</span>
-            <input class="input" name="password" title="Password" type="password" placeholder="******" required />
-        </label>
-        <br>
-        <button class="btn variant-filled w-full mt-4" type="submit">Login</button>
-        <br>
-    </form>
-</div>
+<UserLoginForm data={data.form} error={form?.message} />

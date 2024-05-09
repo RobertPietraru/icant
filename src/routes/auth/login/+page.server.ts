@@ -1,49 +1,41 @@
 import { fail, redirect, type Actions } from '@sveltejs/kit';
 import type { ClientResponseError } from 'pocketbase';
 import type { PageServerLoad } from './$types';
+import { superValidate } from 'sveltekit-superforms';
+import { loginFormSchema } from './user-login-form.svelte';
+import { zod } from 'sveltekit-superforms/adapters';
 
-export const load : PageServerLoad= (async ({locals}) => {    
-    if (locals.pb.authStore.model) {
-        redirect(303, '/app')
-    }
+export const load: PageServerLoad = async ({ locals, params }) => {
+	const user = locals.pb.authStore.model;
+	if (user) redirect(303, '/app');
 
-    return {};
-}) satisfies PageServerLoad;
+	/// get all profiles from the user (user has many profiles)
 
-export const actions = {
-    login: async ({ locals, request }) => {
-        const data = await request.formData();
-        const email = data.get('email');
-        const password = data.get('password');
-        
-        if (!email || !password) {
-            return fail(400, { emailRequired: email === null, passwordRequired: password === null });
-        }
+	const form = await superValidate(zod(loginFormSchema));
+	return {
+		form: form
+	};
+};
 
-        try {
-            await locals.pb.collection('users').authWithPassword(email.toString(), password.toString());
-        } catch (error) {
-            const errorObj = error as ClientResponseError;
-            return fail(500, {fail: true, message: errorObj.data.message});
-        }
+export const actions: Actions = {
+	login: async (event) => {
+		const form = await superValidate(event, zod(loginFormSchema));
+		if (!form.valid) {
+			return fail(400, { form });
+		}
+		const data = form.data;
 
-         redirect(303, '/app');
-    },
-    reset: async ({ locals, request }) => {
-        const data = await request.formData();
-        const email = data.get('email');
-        
-        if (!email) {
-            return fail(400, { emailRequired: email === null });
-        }
+		const email = data.email;
+		const password = data.password;
 
-        try {
-            await locals.pb.collection('users').requestPasswordReset(email.toString());
-        } catch (error) {
-            const errorObj = error as ClientResponseError;
-            return fail(500, {fail: true, message: errorObj.data.message});
-        }
+		console.log(email, password);
 
-         redirect(303, '/login');
-    },
-}satisfies Actions;
+		try {
+			await event.locals.pb.collection('users').authWithPassword(email, password);
+		} catch (error) {
+			const errorObj = error as ClientResponseError;
+			return fail(401, { fail: true, message: 'Email sau parola gresita', form: form });
+		}
+		redirect(303, '/app');
+	}
+};
