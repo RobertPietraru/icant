@@ -21,7 +21,7 @@ export const actions: Actions = {
 	login: async (event) => {
 		const form = await superValidate(event, zod(loginFormSchema));
 		if (!form.valid) {
-			return fail(400, { form });
+			return fail(400, { form , message: undefined});
 		}
 		const data = form.data;
 

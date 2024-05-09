@@ -38,7 +38,7 @@
 	{#if error}
 		<p class="font-bold text-red-500">{error}</p>
 	{/if}
-	<form method="POST" action="?/login" on:submit={onsubmit}>
+	<form method="POST" action="?/login" >
 		<div class="grid gap-2">
 			<Form.Field {form} name="email">
 				<Form.Control let:attrs>
