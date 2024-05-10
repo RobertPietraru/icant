@@ -62,7 +62,6 @@
 			</Button>
 		</div>
 		<Card.Content>
-
 			<Table.Root>
 				<Table.Header>
 					<Table.Row>
@@ -77,41 +76,45 @@
 					</Table.Row>
 				</Table.Header>
 				<Table.Body>
-					{#each data.listings as listing}
-						<Table.Row>
-							<Table.Cell class="font-medium">{listing.title}</Table.Cell>
-							<Table.Cell class="hidden md:table-cell">{listing.price} RON</Table.Cell>
-							<Table.Cell class="hidden md:table-cell">{listing.session_duration} minute</Table.Cell
-							>
-							<Table.Cell class="hidden md:table-cell"
-								>{listing.created_at.toLocaleDateString()}</Table.Cell
-							>
-							<Table.Cell class="hidden md:table-cell"
-								>{listing.modified_at.toLocaleDateString()}</Table.Cell
-							>
-							<Table.Cell>
-								<DropdownMenu.Root>
-									<DropdownMenu.Trigger asChild let:builder>
-										<Button builders={[builder]} aria-haspopup="true" size="icon" variant="ghost">
-											<Ellipsis class="h-4 w-4" />
-											<span class="sr-only">Toggle menu</span>
-										</Button>
-									</DropdownMenu.Trigger>
-									<DropdownMenu.Content align="end">
-										<DropdownMenu.Item
-											on:click={() => goto(`/app/${data.profileId}/listings/${listing.id}/update`)}
-											>Modifica</DropdownMenu.Item
-										>
-										<DropdownMenu.Item
-											class="text-red-500 font-semibold"
-											on:click={async () => await deleteListing(listing.id)}
-											>Sterge</DropdownMenu.Item
-										>
-									</DropdownMenu.Content>
-								</DropdownMenu.Root>
-							</Table.Cell>
-						</Table.Row>
-					{/each}
+					{#if data.listings}
+						{#each data.listings as listing}
+							<Table.Row>
+								<Table.Cell class="font-medium">{listing.title}</Table.Cell>
+								<Table.Cell class="hidden md:table-cell">{listing.price} RON</Table.Cell>
+								<Table.Cell class="hidden md:table-cell"
+									>{listing.session_duration} minute</Table.Cell
+								>
+								<Table.Cell class="hidden md:table-cell"
+									>{listing.created_at.toLocaleDateString()}</Table.Cell
+								>
+								<Table.Cell class="hidden md:table-cell"
+									>{listing.modified_at.toLocaleDateString()}</Table.Cell
+								>
+								<Table.Cell>
+									<DropdownMenu.Root>
+										<DropdownMenu.Trigger asChild let:builder>
+											<Button builders={[builder]} aria-haspopup="true" size="icon" variant="ghost">
+												<Ellipsis class="h-4 w-4" />
+												<span class="sr-only">Toggle menu</span>
+											</Button>
+										</DropdownMenu.Trigger>
+										<DropdownMenu.Content align="end">
+											<DropdownMenu.Item
+												on:click={() =>
+													goto(`/app/${data.profileId}/listings/${listing.id}/update`)}
+												>Modifica</DropdownMenu.Item
+											>
+											<DropdownMenu.Item
+												class="text-red-500 font-semibold"
+												on:click={async () => await deleteListing(listing.id)}
+												>Sterge</DropdownMenu.Item
+											>
+										</DropdownMenu.Content>
+									</DropdownMenu.Root>
+								</Table.Cell>
+							</Table.Row>
+						{/each}
+					{/if}
 				</Table.Body>
 			</Table.Root>
 		</Card.Content>

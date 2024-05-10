@@ -69,7 +69,4 @@ export const load: LayoutServerLoad = (async ({ locals, params }) => {
         return { user: serializeNonPOJOs(user), profileId, profile: p, listings: [], batch_size: 0, total_items: 0, page: 1 };
 
     }
-
-
-
 }) satisfies LayoutServerLoad;
