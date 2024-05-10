@@ -7,6 +7,8 @@
 	import { Label } from '$lib/components/ui/label/index.js';
 	import type { PageData } from './$types';
 	import { Description } from 'formsnap';
+	import * as Form from '$lib/components/ui/form/index.js';
+	import LinkForm from './link-form.svelte';
 	export let data: PageData;
 
 	function cancelSession(id: string | undefined): void {
@@ -164,7 +166,10 @@
 						{#each calendarDay.blocks as block}
 							{#if block.session}
 								<Table.Cell
-									class="outline-dotted outline-1 outline-gray-300 text-center {block.session.teacher_confirmed ? 'bg-green-100' : 'bg-red-100'}"
+									class="outline-dotted outline-1 outline-gray-300 text-center {block.session
+										.teacher_confirmed
+										? 'bg-green-100'
+										: 'bg-red-100'}"
 									colspan={block.cells}
 								>
 									<Dialog.Root>
@@ -187,13 +192,7 @@
 
 											<Dialog.Header>
 												<Dialog.Title>Conectare</Dialog.Title>
-												{#if block.session.google_meet_link}
-													<Dialog.Description
-														>Google Meet - {block.session.google_meet_link}</Dialog.Description
-													>
-												{:else}
-													<Dialog.Description>Nu s-au oferit date de conectare</Dialog.Description>
-												{/if}
+												<LinkForm link={block.session.google_meet_link ?? ''} id={block.session.id}/>
 											</Dialog.Header>
 
 											<Dialog.Footer class="flex flex-row justify-between">

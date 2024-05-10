@@ -13,7 +13,6 @@ export const load: PageServerLoad = async ({ locals, params, url }) => {
 	}
 
 	const searchTerm = url.searchParams.get('searchTerm');
-	console.log(searchTerm)
 
 	/// get 5 listings
 	try {

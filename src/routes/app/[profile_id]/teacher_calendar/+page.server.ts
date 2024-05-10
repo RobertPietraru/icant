@@ -43,7 +43,7 @@ export const load: LayoutServerLoad = (async ({ locals, params }) => {
     }
 
     if (profile.type != 'teacher') {
-        redirect(303, `/app/${profile.id}/teacher_calendar`);
+        redirect(303, `/app/${profile.id}/student_calendar`);
     }
 
 
@@ -72,7 +72,6 @@ export const load: LayoutServerLoad = (async ({ locals, params }) => {
             } as SmallSession);
 
         }
-        console.log(mapped_sesions);
 
         return { sessions: mapped_sesions };
     } catch (error) {

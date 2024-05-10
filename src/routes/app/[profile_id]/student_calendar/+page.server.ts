@@ -72,7 +72,6 @@ export const load: LayoutServerLoad = (async ({ locals, params }) => {
             } as SmallSession);
 
         }
-        console.log(mapped_sesions);
 
         return { sessions: mapped_sesions };
     } catch (error) {

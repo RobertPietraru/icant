@@ -2,12 +2,21 @@
 	import { Button } from '$lib/components/ui/button';
 	import * as Card from '$lib/components/ui/card/index.js';
 	import * as Table from '$lib/components/ui/table/index.js';
+	import Copy from 'lucide-svelte/icons/copy';
 	import * as Dialog from '$lib/components/ui/dialog/index.js';
 	import { Input } from '$lib/components/ui/input/index.js';
 	import { Label } from '$lib/components/ui/label/index.js';
 	import type { PageData } from './$types';
 	import { Description } from 'formsnap';
 	export let data: PageData;
+
+	function copyText(text: string | undefined) {
+		if (!text) {
+			return;
+		}
+
+		navigator.clipboard.writeText(text);
+	}
 
 	function cancelSession(id: string | undefined): void {
 		if (!id) {
@@ -145,7 +154,10 @@
 						{#each calendarDay.blocks as block}
 							{#if block.session}
 								<Table.Cell
-									class="outline-dotted outline-1 outline-gray-300 text-center block.session.teacher_confirmed ? 'bg-green-100' : 'bg-red-100'"
+									class="outline-dotted outline-1 outline-gray-300 text-center {block.session
+										.teacher_confirmed
+										? 'bg-green-100'
+										: 'bg-red-100'}"
 									colspan={block.cells}
 								>
 									<Dialog.Root>
@@ -168,10 +180,19 @@
 
 											<Dialog.Header>
 												<Dialog.Title>Conectare</Dialog.Title>
-												{#if block.session.google_meet_link}
-													<Dialog.Description
-														>Google Meet - {block.session.google_meet_link}</Dialog.Description
-													>
+
+												{#if block.session?.google_meet_link}
+													<Dialog.Description>
+														<Button
+															on:click={() => copyText(block.session?.google_meet_link)}
+															variant="outline"
+															class="flex flex-row gap-3 w-full justify-between"
+														>
+															{block.session?.google_meet_link}
+
+															<Copy class="h-5 w-5" />
+														</Button>
+													</Dialog.Description>
 												{:else}
 													<Dialog.Description>Nu s-au oferit date de conectare</Dialog.Description>
 												{/if}

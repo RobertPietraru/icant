@@ -42,7 +42,6 @@ export const load: PageLoad = ({ params, data }) => {
             }
             const earliest_session = sessions[0];
             sessions.shift();
-            console.log(earliest_session.start_date.getHours(), j + 8)
 
             while (earliest_session.start_date.getHours() > j + 8) {
                 blocks.push({ cells: 1, hourIndex: j, session: undefined })

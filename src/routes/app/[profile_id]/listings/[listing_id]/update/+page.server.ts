@@ -80,7 +80,6 @@ export const actions: Actions = {
             };
         } catch (error) {
             const errorObj = error as ClientResponseError;
-            console.log(errorObj.message)
             redirect(303, '/app');
         }
         redirect(303, `/app/${profile_id}/dashboard`);
