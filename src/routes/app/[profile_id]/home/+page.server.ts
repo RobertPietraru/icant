@@ -1,7 +1,7 @@
 import type { ClientResponseError, ListResult, RecordModel } from 'pocketbase';
 import type { Profile } from '$lib/models/profile';
 import { serializeNonPOJOs } from '$lib/utils';
-import type { LayoutServerLoad } from '../$types';
+import type { LayoutServerLoad, PageServerLoad } from '../$types';
 import { redirect } from '@sveltejs/kit';
 
 export interface SmallProfile {
@@ -10,7 +10,7 @@ export interface SmallProfile {
     last_name: string;
 
 }
-export const load: LayoutServerLoad = (async ({ locals, params }) => {
+export const load: PageServerLoad = (async ({ locals, params }) => {
     const user = locals.pb.authStore.model;
     const profileId = params.profile_id;
     if (!user) {

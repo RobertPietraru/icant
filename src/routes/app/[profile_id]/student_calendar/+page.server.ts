@@ -1,5 +1,5 @@
 import { redirect, type Actions } from '@sveltejs/kit';
-import type { LayoutServerLoad } from '../$types';
+import type { LayoutServerLoad, PageServerLoad } from '../$types';
 
 export interface SmallSession {
     id: string;
@@ -28,7 +28,7 @@ function formatDate(date: Date): string {
     return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}.${milliseconds}${timezoneOffsetSign}${timezoneOffsetHours}:${timezoneOffsetMinutes}`;
 }
 
-export const load: LayoutServerLoad = (async ({ locals, params }) => {
+export const load: PageServerLoad = (async ({ locals, params }) => {
     const user = locals.pb.authStore.model;
     const profileId = params.profile_id;
     if (!user) {
@@ -38,7 +38,7 @@ export const load: LayoutServerLoad = (async ({ locals, params }) => {
     try {
         profile = await locals.pb.collection('profile').getOne(profileId);
     } catch (error) {
-        console.log(error);
+        console.log("idk", error);
         redirect(303, '/profile/creation');
     }
 
@@ -75,7 +75,7 @@ export const load: LayoutServerLoad = (async ({ locals, params }) => {
 
         return { sessions: mapped_sesions };
     } catch (error) {
-        console.log(error);
+        console.log("student calendar: ",error);
         return { sessions: [] };
     }
 

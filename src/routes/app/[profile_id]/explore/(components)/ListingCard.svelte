@@ -6,9 +6,12 @@
 	import teacherMaleImage from '$lib/assets/profile/teacher_male.svg';
 	import type { SmallProfile } from '../../+layout.server';
 	import type { SmallListing } from '../../dashboard/+page.server';
+	import { goto } from '$app/navigation';
+	import { Button } from '$lib/components/ui/button';
 
 	export let listing: SmallListing;
 	export let profile: SmallProfile;
+	export let user_profile_id : string;
 
 	var image: string;
 	switch (profile.type) {
@@ -26,6 +29,7 @@
 			image = studentImage;
 			break;
 	}
+	/// get from slug
 </script>
 
 <Card.Root class="flex flex-col px-10 py-5 w-80">
@@ -38,5 +42,6 @@
 		</div>
 	</div>
 	<Card.Title>{listing.title}</Card.Title>
-	<Card.Description>{listing.description}</Card.Description>
+	<Card.Description class="h-20">{listing.description}</Card.Description>
+	<Button class="mt-2"  on:click={() => goto(`/app/${user_profile_id}/listings/${listing.id}/schedule`)}>Programeaza</Button>
 </Card.Root>

@@ -42,7 +42,8 @@ export const load: PageServerLoad = async ({ locals, params, url }) => {
                     modified_at: new Date(listing.modified),
                     price: listing.session_price,
                     session_duration: listing.session_duration,
-                    subject: listing.subject
+                    subject: listing.subject,
+                    teacher_id: listing.profile,
                 } as SmallListing,
                 profile: {
                     id: profile.id,
@@ -67,7 +68,8 @@ export const load: PageServerLoad = async ({ locals, params, url }) => {
                     modified_at: new Date(listing.modified),
                     price: listing.session_price,
                     session_duration: listing.session_duration,
-                    subject: listing.subject
+                    subject: listing.subject,
+                    teacher_id: listing.profile,
                 } as SmallListing,
                 profile: {
                     id: profile.id,

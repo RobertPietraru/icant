@@ -38,7 +38,7 @@ export const actions: Actions = {
 				.authWithPassword(email, password);
 		} catch (error) {
 			const errorObj = error as ClientResponseError;
-            console.log(error);
+            console.log("last", error);
 			return fail(500, { fail: true, message: errorObj.data.message });
 		}
 

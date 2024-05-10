@@ -17,7 +17,7 @@
 	<div class="flex flex-wrap gap-10">
 		{#if data.listings}
 			{#each data.listings as pair}
-				<ListingCard listing={pair.listing} profile={pair.profile} />
+				<ListingCard listing={pair.listing} profile={pair.profile} user_profile_id={data.profileId}/>
 			{/each}
 		{/if}
 	</div>
@@ -26,7 +26,7 @@
 	<div class="flex flex-wrap gap-10">
 		{#if data.new_listings}
 			{#each data.new_listings as pair}
-				<ListingCard listing={pair.listing} profile={pair.profile} />
+				<ListingCard listing={pair.listing} profile={pair.profile} user_profile_id={data.profileId}/>
 			{/each}
 		{/if}
 	</div>
