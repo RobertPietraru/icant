@@ -1,8 +1,34 @@
 <script lang="ts">
+	import { Button } from '$lib/components/ui/button';
 	import * as Card from '$lib/components/ui/card/index.js';
 	import * as Table from '$lib/components/ui/table/index.js';
+	import * as Dialog from '$lib/components/ui/dialog/index.js';
+	import { Input } from '$lib/components/ui/input/index.js';
+	import { Label } from '$lib/components/ui/label/index.js';
 	import type { PageData } from './$types';
+	import { Description } from 'formsnap';
 	export let data: PageData;
+
+
+	function cancelSession(id: string | undefined): void {
+		if (!id) {
+			return;
+		}
+		fetch(`/api/session/${id}`, {
+			method: 'DELETE',
+		})
+			.then((res) => {
+				if (res.ok) {
+					alert('Sedinta a fost anulata cu succes');
+					location.reload();
+				} else {
+					alert('A aparut o eroare la anularea sedintei');
+				}
+			})
+			.catch((err) => {
+				alert('A aparut o eroare la anularea sedintei');
+			});
+	}
 </script>
 
 <h1 class="text-5xl font-bold text-gray-700">Calendar</h1>
@@ -104,10 +130,47 @@
 					{#if calendarDay.blocks}
 						{#each calendarDay.blocks as block}
 							{#if block.session}
-								<Table.Cell class="outline-dotted outline-1 outline-gray-300 text-center" colspan={block.cells}
-									>{block.session?.subject}</Table.Cell >
+								<Table.Cell
+									class="outline-dotted outline-1 outline-gray-300 text-center"
+									colspan={block.cells}
+								>
+									<Dialog.Root>
+										<Dialog.Trigger>{block.session?.subject}</Dialog.Trigger>
+										<Dialog.Content class="sm:max-w-[425px]">
+											<Dialog.Header>
+												<Dialog.Title>Pregatire</Dialog.Title>
+
+												<Dialog.Description
+													>Profesor - {block.session.teacher_name}</Dialog.Description
+												>
+												<Dialog.Description>Materie - {block.session.subject}</Dialog.Description>
+												<Dialog.Description class="font-bold {!block.session.teacher_confirmed ? 'text-red-500' : ''}">Confirmata de profesor - {block.session.teacher_confirmed ? 'DA' : 'NU'}</Dialog.Description>
+											</Dialog.Header>
+
+											<Dialog.Header>
+												<Dialog.Title>Conectare</Dialog.Title>
+												{#if block.session.google_meet_link}
+													<Dialog.Description
+														>Google Meet - {block.session.google_meet_link}</Dialog.Description
+													>
+												{:else}
+													<Dialog.Description>Nu s-au oferit date de conectare</Dialog.Description>
+												{/if}
+											</Dialog.Header>
+
+											<Dialog.Footer>
+												<Button  on:click={
+													() => cancelSession(block.session?.id)
+												}  variant="destructive">Anuleaza Pregatirea</Button>
+											</Dialog.Footer>
+										</Dialog.Content>
+									</Dialog.Root>
+								</Table.Cell>
 							{:else}
-								<Table.Cell class="outline-dotted outline-1 outline-gray-300 text-transparent" colspan={block.cells}>a</Table.Cell>
+								<Table.Cell
+									class="outline-dotted outline-1 outline-gray-300 text-transparent"
+									colspan={block.cells}>a</Table.Cell
+								>
 							{/if}
 						{/each}
 					{/if}
