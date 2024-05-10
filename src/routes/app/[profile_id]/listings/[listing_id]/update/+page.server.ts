@@ -31,6 +31,7 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 
     const form = await superValidate(zod(listingUpdateFormSchema));
     form.data = {
+        subject: listing.subject,
         description: listing.description,
         session_duration: listing.session_duration,
         session_price: listing.session_price,
@@ -67,9 +68,11 @@ export const actions: Actions = {
                 session_duration: data.session_duration,
                 session_price: data.session_price,
                 title: data.title,
+                subject: data.subject
             });
 
             form.data = {
+                subject: data.subject,
                 description: data.description,
                 session_duration: data.session_duration,
                 session_price: data.session_price,

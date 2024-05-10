@@ -82,7 +82,7 @@
 								<Table.Cell class="font-medium">{listing.title}</Table.Cell>
 								<Table.Cell class="hidden md:table-cell">{listing.price} RON</Table.Cell>
 								<Table.Cell class="hidden md:table-cell"
-									>{listing.session_duration} minute</Table.Cell
+									>{listing.session_duration} ore</Table.Cell
 								>
 								<Table.Cell class="hidden md:table-cell"
 									>{listing.created_at.toLocaleDateString()}</Table.Cell

@@ -2,6 +2,7 @@
 	import { z } from 'zod';
 	export const listingFormSchema = z.object({
 		title: z.string().min(2, 'Introduceti un titlu'),
+		subject: z.string().min(2, 'Introduceti o materie'),
 		description: z.string().min(2, 'Introduceti o descriere'),
 		session_price: z
 			.number({
@@ -12,7 +13,9 @@
 			.number({
 				invalid_type_error: 'Introduceti o durata'
 			})
-			.min(15, 'Durata este prea mica').default(0)
+			.max(4, 'Durata este prea mare')
+			.min(1, 'Durata este prea mica').default(1)
+	
 	});
 	export type ListingFormSchema = typeof listingFormSchema;
 </script>
@@ -56,6 +59,14 @@
 		<Form.FieldErrors />
 	</Form.Field>
 
+	<Form.Field {form} name="subject">
+		<Form.Control let:attrs>
+			<Form.Label>Materie</Form.Label>
+			<Input placeholder="Engleza" {...attrs} bind:value={$formData.subject} />
+		</Form.Control>
+		<Form.FieldErrors />
+	</Form.Field>
+
 	<Form.Field {form} name="description">
 		<Form.Control let:attrs>
 			<Form.Label>Descriere</Form.Label>
@@ -78,7 +89,7 @@
 
 	<Form.Field {form} name="session_duration">
 		<Form.Control let:attrs>
-			<Form.Label>Durata sedinta (in minute)</Form.Label>
+			<Form.Label>Durata sedinta (in ore)</Form.Label>
 			<Input {...attrs} bind:value={session_duration} type="number" placeholder="Introduceti durata unei sedinte"/>
 		</Form.Control>
 		<Form.FieldErrors />

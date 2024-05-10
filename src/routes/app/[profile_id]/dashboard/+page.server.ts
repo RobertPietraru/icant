@@ -5,6 +5,7 @@ import type { LayoutServerLoad } from '../$types';
 import { redirect, type Actions } from '@sveltejs/kit';
 
 export interface SmallListing {
+    subject: string;
     id: string;
     title: string;
     description: string;
@@ -60,6 +61,7 @@ export const load: LayoutServerLoad = (async ({ locals, params }) => {
                 session_duration: l.session_duration,
                 created_at: new Date(l.created),
                 modified_at: new Date(l.updated),
+                    subject: l.subject
             } as SmallListing;
         }
         );

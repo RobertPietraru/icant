@@ -39,6 +39,7 @@ export const actions: Actions = {
             }
 
             const listing = await event.locals.pb.collection('listings').create({
+                subject: data.subject,
                 description: data.description,
                 title: data.title,
                 session_duration: data.session_duration,

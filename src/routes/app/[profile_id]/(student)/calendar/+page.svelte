@@ -105,7 +105,7 @@
 						{#each calendarDay.blocks as block}
 							{#if block.session}
 								<Table.Cell class="outline-dotted outline-1 outline-gray-300 text-center" colspan={block.cells}
-									>{block.session?.id}</Table.Cell >
+									>{block.session?.subject}</Table.Cell >
 							{:else}
 								<Table.Cell class="outline-dotted outline-1 outline-gray-300 text-transparent" colspan={block.cells}>a</Table.Cell>
 							{/if}

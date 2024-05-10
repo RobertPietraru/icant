@@ -4,6 +4,7 @@ import { serializeNonPOJOs } from '$lib/utils';
 import type { LayoutServerLoad } from '../../$types';
 import { redirect, type Actions } from '@sveltejs/kit';
 import { today } from '@internationalized/date';
+import { map } from 'zod';
 
 export interface SmallSession {
     id: string;
@@ -12,6 +13,9 @@ export interface SmallSession {
     start_date: Date;
     end_date: Date;
     teacher_confirmed: boolean;
+    google_meet_link?: string;
+    teacher_name: string;
+    subject: string;
 }
 function formatDate(date: Date): string {
     const year = date.getUTCFullYear();
@@ -35,30 +39,37 @@ export const load: LayoutServerLoad = (async ({ locals, params }) => {
     if (!user) {
         redirect(303, '/auth/login');
     }
-    
+
     try {
         /// start date today and end date 1 week from now
         const todayAtMidnight = new Date();
-        todayAtMidnight.setHours(0,0,0,0);
+        todayAtMidnight.setHours(0, 0, 0, 0);
         const oneWeekFromNow = new Date(todayAtMidnight.getTime() + 7 * 24 * 60 * 60 * 1000);
 
-        const sessions = await locals.pb.collection('sessions').getList(1, 50, { filter: `student="${profileId}" && start_date>="${formatDate(todayAtMidnight)}" && end_date<="${formatDate(oneWeekFromNow)}"`  });
-
-        const mapped_sesions = sessions.items.map((s) => {
-            return {
+        const sessions = await locals.pb.collection('sessions').getList(1, 50, { filter: `student="${profileId}" && start_date>="${formatDate(todayAtMidnight)}" && end_date<="${formatDate(oneWeekFromNow)}"` });
+        const teacherProfile = await locals.pb.collection('profile').getOne(profileId);
+        const mapped_sesions = [];
+        for (const s of sessions.items) {
+            const listing = await locals.pb.collection('listings').getOne(s.listing);
+            mapped_sesions.push({
                 id: s.id,
                 student_id: s.student,
                 teacher_id: s.teacher,
                 start_date: new Date(s.start_date),
                 end_date: new Date(s.end_date),
-                teacher_confirmed: s.teacher_confirmed
-            } as SmallSession;
-        });
+                teacher_confirmed: s.teacher_confirmed,
+                google_meet_link: s.google_meet_link,
+                teacher_name: teacherProfile.last_name + ' ' + teacherProfile.first_name,
+                subject: listing.subject,
+            } as SmallSession);
 
-        return {sessions: mapped_sesions};
+        }
+        console.log(mapped_sesions);
+
+        return { sessions: mapped_sesions };
     } catch (error) {
         console.log(error);
-        return {sessions: []};
+        return { sessions: [] };
     }
 
 

@@ -33,7 +33,8 @@
 		<img src={image} alt="profile" class="rounded-full w-20 h-20" />
 		<div >
 			<h1 class="font-bold">{profile.last_name} {profile.first_name}</h1>
-			<h2 class="text-md font-bold text-gray-400 ">{listing.price} Lei <br> {listing.session_duration} min</h2>
+			<h2 class="text-md font-bold text-gray-400 ">{listing.price} Lei / {listing.session_duration}h</h2>
+			<h2 class="text-md font-bold text-gray-400 ">{listing.subject}</h2>
 		</div>
 	</div>
 	<Card.Title>{listing.title}</Card.Title>
