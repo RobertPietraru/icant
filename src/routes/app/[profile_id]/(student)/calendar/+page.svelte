@@ -9,13 +9,12 @@
 	import { Description } from 'formsnap';
 	export let data: PageData;
 
-
 	function cancelSession(id: string | undefined): void {
 		if (!id) {
 			return;
 		}
 		fetch(`/api/session/${id}`, {
-			method: 'DELETE',
+			method: 'DELETE'
 		})
 			.then((res) => {
 				if (res.ok) {
@@ -29,6 +28,13 @@
 				alert('A aparut o eroare la anularea sedintei');
 			});
 	}
+
+	function getDay(dayIndex: number): string {
+		const today = new Date();
+		return new Intl.DateTimeFormat('ro-RO', { weekday: 'narrow' }).format(
+			new Date(today.setDate(today.getDate() + dayIndex))
+		);
+	}
 </script>
 
 <h1 class="text-5xl font-bold text-gray-700">Calendar</h1>
@@ -38,6 +44,11 @@
 	<Table.Root>
 		<Table.Header>
 			<Table.Row>
+				<Table.Head class="outline-dotted outline-1 outline-gray-300 w-1/13 "
+					><div class="flex flex-row justify-between">
+						<p>Zi</p>
+					</div></Table.Head
+				>
 				<Table.Head class="outline-dotted outline-1 outline-gray-300 w-1/12 "
 					><div class="flex flex-row justify-between">
 						<p>08:00</p>
@@ -127,6 +138,9 @@
 		<Table.Body>
 			{#each data.calendar as calendarDay}
 				<Table.Row>
+					<Table.Cell class="outline-dotted outline-1 outline-gray-300 text-center">
+						{getDay(calendarDay.dayIndex)}
+					</Table.Cell>
 					{#if calendarDay.blocks}
 						{#each calendarDay.blocks as block}
 							{#if block.session}
@@ -144,7 +158,12 @@
 													>Profesor - {block.session.teacher_name}</Dialog.Description
 												>
 												<Dialog.Description>Materie - {block.session.subject}</Dialog.Description>
-												<Dialog.Description class="font-bold {!block.session.teacher_confirmed ? 'text-red-500' : ''}">Confirmata de profesor - {block.session.teacher_confirmed ? 'DA' : 'NU'}</Dialog.Description>
+												<Dialog.Description
+													class="font-bold {!block.session.teacher_confirmed ? 'text-red-500' : ''}"
+													>Confirmata de profesor - {block.session.teacher_confirmed
+														? 'DA'
+														: 'NU'}</Dialog.Description
+												>
 											</Dialog.Header>
 
 											<Dialog.Header>
@@ -159,9 +178,10 @@
 											</Dialog.Header>
 
 											<Dialog.Footer>
-												<Button  on:click={
-													() => cancelSession(block.session?.id)
-												}  variant="destructive">Anuleaza Pregatirea</Button>
+												<Button
+													on:click={() => cancelSession(block.session?.id)}
+													variant="destructive">Anuleaza Pregatirea</Button
+												>
 											</Dialog.Footer>
 										</Dialog.Content>
 									</Dialog.Root>
